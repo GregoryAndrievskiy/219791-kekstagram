@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Григорий Андриевский](https://up.htmlacademy.ru/javascript/9/user/219791).
-* Наставник: `Неизвестно`.
+* Наставник: [Денис Верхотуров](https://htmlacademy.ru/profile/id56756).
 
 ---
 
