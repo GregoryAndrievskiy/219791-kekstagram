@@ -44,7 +44,7 @@ for (var i = 1; i < 26; i++) {
   var photoCard = {
     url: getUrl(i),
     likes: getLikes(),
-    comment: getComments()
+    comments: getComments()
   };
   photoAlbum.push(photoCard);
 }
@@ -57,7 +57,7 @@ var renderPhoto = function (card) {
 
   photoElement.querySelector('img').src = card.url;
   photoElement.querySelector('.picture-likes').textContent = card.likes;
-  photoElement.querySelector('.picture-comments').textContent = card.comment;
+  photoElement.querySelector('.picture-comments').textContent = card.comments;
   return photoElement;
 };
 
@@ -69,4 +69,4 @@ document.querySelector('.pictures').appendChild(fragment);
 document.querySelector('.gallery-overlay').classList.remove('invisible');
 document.querySelector('.gallery-overlay-image').src = photoAlbum[0].url;
 document.querySelector('.likes-count').textContent = photoAlbum[0].likes;
-document.querySelector('.comments-count').textContent = photoAlbum[0].comment;
+document.querySelector('.comments-count').textContent = photoAlbum[0].comments.length;
