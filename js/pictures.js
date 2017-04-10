@@ -87,11 +87,18 @@ var overlayComments = galleryOverlay.querySelector('.comments-count');
 
 document.querySelector('.pictures').appendChild(fragment);
 
+var closeOverlayEsc = function (evt) {
+  if (evt.keyCode === 27) {
+    galleryOverlay.classList.add('invisible');
+  }
+};
+
 function showDefaultOverlay(picNum) {
   overlayImage.src = photoAlbum[picNum].url;
   overlayLikes.textContent = photoAlbum[picNum].likes;
   overlayComments.textContent = photoAlbum[picNum].comments.length;
   galleryOverlay.classList.remove('invisible');
+  document.addEventListener('keydown', closeOverlayEsc);
 }
 
 showDefaultOverlay(0);
@@ -102,6 +109,7 @@ var showOverlay = function (evt) {
   overlayImage.src = evt.currentTarget.querySelector('img').src;
   overlayLikes.textContent = evt.currentTarget.querySelector('.picture-likes').textContent;
   overlayComments.textContent = evt.currentTarget.querySelector('.picture-comments').textContent;
+  document.addEventListener('keydown', closeOverlayEsc);
 };
 
 for (var p = 0; p < photoAlbum.length; p++) {
@@ -112,14 +120,6 @@ for (var p = 0; p < photoAlbum.length; p++) {
   }
   );
 }
-
-var closeOverlayEsc = function (evt) {
-  if (evt.keyCode === 27) {
-    galleryOverlay.classList.add('invisible');
-  }
-};
-
-document.addEventListener('keydown', closeOverlayEsc);
 
 var closeOverlay = function () {
   galleryOverlay.classList.add('invisible');
@@ -139,11 +139,31 @@ galleryOverlayClose.addEventListener('keydown', function (evt) {
 var uploadOverlay = document.querySelector('.upload-overlay');
 var uploadForm = document.querySelector('#upload-select-image');
 var uploadFile = uploadForm.elements.filename;
+var uploadDescription = uploadOverlay.querySelector('.upload-form-description');
+var uploadResizeControl = uploadOverlay.querySelector('.upload-resize-controls-value');
 var uploadCancel = uploadOverlay.querySelector('.upload-form-cancel');
 var uploadSubmit = uploadOverlay.querySelector('.upload-form-submit');
+var uploadPreview = uploadOverlay.querySelector('.filter-image-preview');
+var uploadControls = uploadOverlay.querySelector('.upload-filter-controls');
+var uploadResize = uploadOverlay.querySelector('.upload-resize-controls-value');
+var uploadDecrease = uploadOverlay.querySelector('.upload-resize-controls-button-dec');
+var uploadIncrease = uploadOverlay.querySelector('.upload-resize-controls-button-inc');
 
 uploadForm.classList.remove('invisible');
 uploadOverlay.classList.add('invisible');
+
+uploadDescription.required = true;
+uploadDescription.setAttribute('minlength', '30');
+uploadDescription.setAttribute('maxlength', '100');
+uploadResizeControl.setAttribute('min', '25%');
+uploadResizeControl.setAttribute('max', '100%');
+uploadResizeControl.setAttribute('step', '25%');
+
+var closeUploadOverlayEsc = function (evt) {
+  if (evt.keyCode === 27) {
+    closeUploadOverlay();
+  }
+};
 
 var openUploadOverlay = function () {
   uploadForm.classList.add('invisible');
@@ -155,12 +175,6 @@ uploadFile.addEventListener('change', function () {
   openUploadOverlay();
 });
 
-var closeUploadOverlayEsc = function (evt) {
-  if (evt.keyCode === 27) {
-    closeUploadOverlay();
-  }
-};
-
 var closeUploadOverlay = function () {
   uploadForm.classList.remove('invisible');
   uploadOverlay.classList.add('invisible');
@@ -171,10 +185,6 @@ uploadCancel.addEventListener('click', function () {
   closeUploadOverlay();
 });
 
-uploadSubmit.addEventListener('click', function () {
-  closeUploadOverlay();
-});
-
 document.querySelector('.upload-form-description').addEventListener('keydown',
     function (evt) {
       if (evt.keyCode === 27) {
@@ -182,3 +192,73 @@ document.querySelector('.upload-form-description').addEventListener('keydown',
       }
     }
 );
+
+function changeClass(value) {
+  var filterName = 'filter-' + value;
+  uploadPreview.className = '';
+  uploadPreview.classList.add('filter-image-preview');
+  uploadPreview.classList.add(filterName);
+}
+
+var onFilterClick = function (evt) {
+  if (evt.target.getElementsByTagName('input')) {
+    var filter = evt.target;
+    if (filter.checked) {
+      var value = filter.value;
+      changeClass(value);
+    }
+  }
+};
+
+var scalePic = 100;
+var displayScale = scalePic + '%';
+uploadControls.addEventListener('click', onFilterClick);
+uploadResize.setAttribute('value', displayScale);
+
+function decreaseScale() {
+  if (scalePic === 25) {
+    return scalePic;
+  }
+  scalePic -= 25;
+  displayScale = scalePic + '%';
+  uploadResize.setAttribute('value', displayScale);
+  uploadPreview.style.transform = 'scale(' + scalePic / 100 + ')';
+  return scalePic;
+}
+
+function increaseScale() {
+  if (scalePic === 100) {
+    return scalePic;
+  }
+  scalePic += 25;
+  displayScale = scalePic + '%';
+  uploadResize.setAttribute('value', displayScale);
+  uploadPreview.style.transform = 'scale(' + scalePic / 100 + ')';
+  return scalePic;
+}
+
+function submitUpload() {
+  var valid = uploadDescription.validity;
+  if (valid.valueMissing) {
+    uploadDescription.style = 'border: 1px solid red';
+  } if (valid.tooShort) {
+    uploadDescription.style = 'border: 1px solid red';
+  } if (valid.tooLong) {
+    uploadDescription.style = 'border: 1px solid red';
+  }
+}
+
+function resetDefaults() {
+  scalePic = 100;
+  uploadPreview.className = '';
+  uploadPreview.classList.add('filter-image-preview');
+}
+
+uploadIncrease.addEventListener('click', increaseScale);
+
+uploadDecrease.addEventListener('click', decreaseScale);
+
+uploadSubmit.addEventListener('click', function () {
+  submitUpload();
+  resetDefaults();
+});
