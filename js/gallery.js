@@ -8,9 +8,9 @@
 
   var galleryOverlay = document.querySelector('.gallery-overlay');
   var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
-  var photoAlbum = data.photoAlbum;
+  var photoAlbum = window.data.photoAlbum;
 
-  picture.renderPictures(photoAlbum);
+  window.picture.renderPictures(photoAlbum);
 
   var pictures = document.querySelectorAll('.picture');
 
@@ -37,12 +37,12 @@
     }
   });
 
-  preview.showDefaultOverlay(photoAlbum, 0, closeOverlayEsc);
+  window.preview.showDefaultOverlay(photoAlbum, 0, closeOverlayEsc);
 
   pictures.forEach(function (element) {
     element.addEventListener('click', function (evt) {
       evt.preventDefault();
-      preview.showOverlay(evt, closeOverlayEsc);
+      window.preview.showOverlay(evt, closeOverlayEsc);
       galleryOverlay.classList.remove('invisible');
     });
   });

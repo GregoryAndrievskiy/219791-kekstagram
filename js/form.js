@@ -57,11 +57,11 @@
   });
 
   document.querySelector('.upload-form-description').addEventListener('keydown',
-    function (evt) {
-      if (evt.keyCode === KEY_CODE.ESCAPE) {
-        evt.stopPropagation();
+      function (evt) {
+        if (evt.keyCode === KEY_CODE.ESCAPE) {
+          evt.stopPropagation();
+        }
       }
-    }
   );
 
   function applyFilter(value) {
