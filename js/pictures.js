@@ -1,109 +1,15 @@
 'use strict';
 
-var lines = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце-концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как-будто их избивают. Как можно было поймать такой неудачный момент?!'
-];
-
-function getSingleComment() {
-
-  var randomComment = [];
-
-  function getIndex() {
-    var setupIndex = Math.floor(Math.random() * lines.length);
-    var punchIndex = Math.floor(Math.random() * lines.length);
-    randomComment = [lines[setupIndex], lines[punchIndex]];
-    return randomComment;
-  }
-  if (randomComment[0] === randomComment[1]) {
-    getIndex();
-  }
-  var doubleCommentChance = 0.5;
-  if (Math.random() < doubleCommentChance) {
-    return randomComment[0];
-  } else {
-    return randomComment[0] + '' + randomComment[1];
-  }
-}
-
-function getComments() {
-  var photoCommentArr = [];
-  var maxCount = 10;
-  var count = Math.floor(Math.random() * maxCount);
-  for (var m = 1; m < count; m++) {
-    photoCommentArr.push(getSingleComment());
-  }
-  return photoCommentArr;
-}
-
-function getUrl(i) {
-  return 'photos/' + i + '.jpg';
-}
-
-function getLikes() {
-  var maxLikes = 200;
-  var minLikes = 15;
-  return Math.floor(Math.random() * (maxLikes + 1 - minLikes) + minLikes);
-}
-
-var photoAlbum = [];
-
-for (var i = 0; i < 25; i++) {
-  var photoCard = {
-    url: getUrl(i + 1),
-    likes: getLikes(),
-    comments: getComments()
-  };
-  photoAlbum.push(photoCard);
-}
-
-document.querySelector('.upload-overlay').classList.add('invisible');
-
-var pictureTemplate = document.querySelector('#picture-template').content;
-
-var renderPhoto = function (card) {
-  var photoElement = pictureTemplate.cloneNode(true);
-  photoElement.querySelector('img').src = card.url;
-  photoElement.querySelector('.picture-likes').textContent = card.likes;
-  photoElement.querySelector('.picture-comments').textContent = card.comments.length;
-  return photoElement;
+var KEY_CODE = {
+  ENTER: 13,
+  ESCAPE: 27
 };
-
-var fragment = document.createDocumentFragment();
-
-for (var pic = 0; pic < photoAlbum.length; pic++) {
-  fragment.appendChild(renderPhoto(photoAlbum[pic]));
-}
 
 var galleryOverlay = document.querySelector('.gallery-overlay');
 var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
 var overlayImage = galleryOverlay.querySelector('.gallery-overlay-image');
 var overlayLikes = galleryOverlay.querySelector('.likes-count');
 var overlayComments = galleryOverlay.querySelector('.comments-count');
-
-document.querySelector('.pictures').appendChild(fragment);
-
-var closeOverlayEsc = function (evt) {
-  if (evt.keyCode === 27) {
-    galleryOverlay.classList.add('invisible');
-  }
-};
-
-function showDefaultOverlay(picNum) {
-  overlayImage.src = photoAlbum[picNum].url;
-  overlayLikes.textContent = photoAlbum[picNum].likes;
-  overlayComments.textContent = photoAlbum[picNum].comments.length;
-  galleryOverlay.classList.remove('invisible');
-  document.addEventListener('keydown', closeOverlayEsc);
-}
-
-showDefaultOverlay(0);
-
-var pictures = document.querySelectorAll('.picture');
 
 var showOverlay = function (evt) {
   overlayImage.src = evt.currentTarget.querySelector('img').src;
@@ -112,14 +18,13 @@ var showOverlay = function (evt) {
   document.addEventListener('keydown', closeOverlayEsc);
 };
 
-for (var p = 0; p < photoAlbum.length; p++) {
-  pictures[p].addEventListener('click', function (evt) {
+pictures.forEach(function (element) {
+  element.addEventListener('click', function (evt) {
     evt.preventDefault();
     showOverlay(evt);
     galleryOverlay.classList.remove('invisible');
-  }
-  );
-}
+  });
+});
 
 var closeOverlay = function () {
   galleryOverlay.classList.add('invisible');
@@ -131,7 +36,7 @@ galleryOverlayClose.addEventListener('click', function () {
 });
 
 galleryOverlayClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === KEY_CODE.ENTER) {
     closeOverlay();
   }
 });
@@ -160,7 +65,7 @@ uploadResizeControl.setAttribute('max', '100%');
 uploadResizeControl.setAttribute('step', '25%');
 
 var closeUploadOverlayEsc = function (evt) {
-  if (evt.keyCode === 27) {
+  if (evt.keyCode === KEY_CODE.ESCAPE) {
     closeUploadOverlay();
   }
 };
@@ -193,7 +98,7 @@ document.querySelector('.upload-form-description').addEventListener('keydown',
     }
 );
 
-function changeClass(value) {
+function applyFilter(value) {
   var filterName = 'filter-' + value;
   uploadPreview.className = '';
   uploadPreview.classList.add('filter-image-preview');
@@ -205,7 +110,7 @@ var onFilterClick = function (evt) {
     var filter = evt.target;
     if (filter.checked) {
       var value = filter.value;
-      changeClass(value);
+      applyFilter(value);
     }
   }
 };
@@ -238,12 +143,8 @@ function increaseScale() {
 }
 
 function submitUpload() {
-  var valid = uploadDescription.validity;
-  if (valid.valueMissing) {
-    uploadDescription.style = 'border: 1px solid red';
-  } if (valid.tooShort) {
-    uploadDescription.style = 'border: 1px solid red';
-  } if (valid.tooLong) {
+  var value = uploadDescription.validity;
+  if (!value.valid) {
     uploadDescription.style = 'border: 1px solid red';
   }
 }
