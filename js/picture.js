@@ -1,14 +1,12 @@
 'use strict';
-
-window.picture = (function () {
-
+window.picture = function () {
   function renderPictures(array) {
     var pictureTemplate = document.querySelector('#picture-template').content;
-    var renderPhoto = function (card) {
+    var renderPhoto = function (arrayElement) {
       var photoElement = pictureTemplate.cloneNode(true);
-      photoElement.querySelector('img').src = card.url;
-      photoElement.querySelector('.picture-likes').textContent = card.likes;
-      photoElement.querySelector('.picture-comments').textContent = card.comments.length;
+      photoElement.querySelector('img').src = arrayElement.url;
+      photoElement.querySelector('.picture-likes').textContent = arrayElement.likes;
+      photoElement.querySelector('.picture-comments').textContent = arrayElement.comments.length;
       return photoElement;
     };
     var fragment = document.createDocumentFragment();
@@ -17,9 +15,7 @@ window.picture = (function () {
     }
     document.querySelector('.pictures').appendChild(fragment);
   }
-
   return {
     renderPictures: renderPictures
   };
-
-})();
+}();

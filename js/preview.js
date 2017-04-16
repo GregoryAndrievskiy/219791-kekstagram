@@ -1,6 +1,6 @@
 'use strict';
 
-window.preview = (function () {
+window.preview = function () {
 
   var galleryOverlay = document.querySelector('.gallery-overlay');
   var overlayImage = galleryOverlay.querySelector('.gallery-overlay-image');
@@ -19,6 +19,7 @@ window.preview = (function () {
     overlayImage.src = evt.currentTarget.querySelector('img').src;
     overlayLikes.textContent = evt.currentTarget.querySelector('.picture-likes').textContent;
     overlayComments.textContent = evt.currentTarget.querySelector('.picture-comments').textContent;
+    galleryOverlay.classList.remove('invisible');
     document.addEventListener('keydown', action);
   };
 
@@ -26,4 +27,4 @@ window.preview = (function () {
     showDefaultOverlay: showDefaultOverlay,
     showOverlay: showOverlay
   };
-})();
+}();

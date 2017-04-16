@@ -1,5 +1,5 @@
 'use strict';
-window.form = (function () {
+window.form = function () {
 
   var KEY_CODE = {
     ENTER: 13,
@@ -126,4 +126,4 @@ window.form = (function () {
       evt.stopPropagation();
     }
   });
-})();
+}();
