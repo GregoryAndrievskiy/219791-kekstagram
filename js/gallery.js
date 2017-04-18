@@ -14,7 +14,7 @@
 
   var error = function (errorMessage) {
     var node = document.createElement('div');
-    node.style = 'position: absolute; fontSize: 30px; z-index: 100; margin: 0 auto; text-align: center; background-color: red; left: 0; right: 0;';
+    node.style = 'position: absolute; font: 32px "Open Sans"; z-index: 100; margin: 0 auto; text-align: center; background-color: red; left: 0; right: 0;';
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
   };
@@ -29,7 +29,9 @@
     });
   };
 
-  window.load(onLoad, error);
+  var url = 'https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data';
+
+  window.load(url, onLoad, error);
 
   var galleryOverlay = document.querySelector('.gallery-overlay');
   var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');

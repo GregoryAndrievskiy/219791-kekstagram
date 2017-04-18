@@ -1,8 +1,7 @@
 'use strict';
 
 (function () {
-  var URL = 'https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data';
-  window.load = function (onLoad, error) {
+  window.load = function (url, onLoad, error) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -18,8 +17,8 @@
     xhr.addEventListener('timeout', function () {
       error('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = 10000; // 10s
-    xhr.open('GET', URL);
+    xhr.timeout = 10; // 10s
+    xhr.open('GET', url);
     xhr.send();
   };
 })();
