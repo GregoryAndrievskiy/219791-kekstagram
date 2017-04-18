@@ -1,5 +1,5 @@
 'use strict';
-window.initializeFilters = (function (clickElement, HideElement, previewElement, dragElement, barElement, clickBar, filtersObj, setClass, setFilter, minPosition, maxPosition, defaultPosition) {
+window.initializeFilters = function (clickElement, HideElement, previewElement, dragElement, barElement, clickBar, filtersObj, setClass, setFilter, minPosition, maxPosition, defaultPosition) {
 // выбор фильтра
   clickElement.addEventListener('click', function (evt) {
     if (evt.target.getElementsByTagName('input')) {
@@ -76,4 +76,4 @@ window.initializeFilters = (function (clickElement, HideElement, previewElement,
     var filterValue = position * filter.multiplier / maxPosition;
     setFilter(previewElement, filterType, filterValue, filterUnits);
   });
-});
+};

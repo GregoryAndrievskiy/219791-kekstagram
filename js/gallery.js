@@ -6,13 +6,35 @@
     ESCAPE: 27
   };
 
+  var onLoad = function (photoArray) {
+    window.picture.renderPictures(photoArray);
+    window.preview.showDefaultOverlay(photoArray, 5, closeOverlayEsc);
+    onPictureClick();
+  };
+
+  var error = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'position: absolute; font: 32px "Open Sans"; z-index: 100; margin: 0 auto; text-align: center; background-color: red; left: 0; right: 0;';
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var onPictureClick = function () {
+    var picture = document.querySelectorAll('.picture');
+    picture.forEach(function (element) {
+      element.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        window.preview.showOverlay(evt, closeOverlayEsc);
+      });
+    });
+  };
+
+  var url = 'https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data';
+
+  window.load(url, onLoad, error);
+
   var galleryOverlay = document.querySelector('.gallery-overlay');
   var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
-  var photoAlbum = window.data.photoAlbum;
-
-  window.picture.renderPictures(photoAlbum);
-
-  var pictures = document.querySelectorAll('.picture');
 
   document.querySelector('.upload-overlay').classList.add('invisible');
 
@@ -26,25 +48,12 @@
       galleryOverlay.classList.add('invisible');
     }
   };
-
   galleryOverlayClose.addEventListener('click', function () {
     closeOverlay();
   });
-
   galleryOverlayClose.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEY_CODE.ENTER) {
       closeOverlay();
     }
   });
-
-  window.preview.showDefaultOverlay(photoAlbum, 0, closeOverlayEsc);
-
-  pictures.forEach(function (element) {
-    element.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      window.preview.showOverlay(evt, closeOverlayEsc);
-      galleryOverlay.classList.remove('invisible');
-    });
-  });
-
 })();
