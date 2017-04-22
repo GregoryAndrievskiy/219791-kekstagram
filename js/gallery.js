@@ -1,6 +1,8 @@
 'use strict';
 (function () {
 
+  var photoArray = [];
+
   var KEY_CODE = {
     ENTER: 13,
     ESCAPE: 27
@@ -9,15 +11,6 @@
 // сортировка галереи изображений
   var filters = document.querySelector('.filters');
   var pictureContainer = document.querySelector('.pictures');
-  var lastTimeout;
-
-// функция задержки сортировки
-  var debounce = function (action) {
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(action, 500);
-  };
 
 // сортировка по количеству комментариев
   var getRank = function (array) {
@@ -43,15 +36,16 @@
   }
 
 // популярные фотографии (исходный массив)
-  function popularPictures(array) {
+  function popularPictures() {
+    var newArray = photoArray.slice(0);
     pictureContainer.innerHTML = '';
-    window.picture.renderPictures(array);
+    window.picture.renderPictures(newArray);
     onPictureClick();
   }
 
 // новые фотографии (10 любых из исходного массива)
-  function newPictures(array) {
-    var newArray = array.slice(0);
+  function newPictures() {
+    var newArray = photoArray.slice(0);
     function compareRandom() {
       return Math.random() - 0.5;
     }
@@ -63,8 +57,8 @@
   }
 
 // фотографии отсортированы по уменьшению количества комментрариев (при их равестве - порядок по уменьшению количества лайков)
-  function discussedPictures(array) {
-    var newArray = array.slice(0);
+  function discussedPictures() {
+    var newArray = photoArray.slice(0);
     pictureContainer.innerHTML = '';
     newArray = newArray.sort(function (left, right) {
       var rankDiff = getRank(right) - getRank(left);
@@ -77,13 +71,18 @@
     onPictureClick();
   }
 
+// задержка сортировки
+  var debouncePopular = window.debounce(popularPictures, 500);
+  var debounceNew = window.debounce(newPictures, 500);
+  var debounceDiscussed = window.debounce(discussedPictures, 500);
+
 // при успешной загрузке данных с сервера
   var onLoad = function (data) {
-    var photoArray = data;
+    photoArray = data;
     window.picture.renderPictures(photoArray);
     window.preview.showDefaultOverlay(photoArray, 5, closeOverlayEsc);
     showFilters();
-    window.sort(filters, photoArray, popularPictures, newPictures, discussedPictures, debounce);
+    window.sort(filters, photoArray, debouncePopular, debounceNew, debounceDiscussed);
     onPictureClick();
   };
 
