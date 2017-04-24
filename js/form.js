@@ -19,6 +19,8 @@ window.form = function () {
   var uploadFile = uploadForm.elements.filename;
   var uploadCancel = uploadOverlay.querySelector('.upload-form-cancel');
   var uploadPreview = uploadOverlay.querySelector('.filter-image-preview');
+  var previewForm = document.querySelector('.upload-form-preview');
+  var uploadFilter = document.querySelector('#upload-filter');
   uploadForm.classList.remove('invisible');
   uploadOverlay.classList.add('invisible');
   uploadPreview.classList.add('filter-none');
@@ -36,6 +38,12 @@ window.form = function () {
   uploadLine.setAttribute('dropzone', 'move');
   uploadPin.setAttribute('draggabel', 'true');
   uploadVal.style.maxWidth = '100%';
+
+// размеры загружаенмых изображений
+  uploadPreview.style.width = '100%';
+  previewForm.style.width = '586px';
+  uploadFilterLevel.style.bottom = '380px';
+  uploadFilter.style.height = 'auto';
   function setFilterClass(element, filterClass) {
     element.className = '';
     element.classList.add('filter-image-preview');
@@ -126,4 +134,6 @@ window.form = function () {
       evt.stopPropagation();
     }
   });
+
+  window.pictureUpload(openUploadOverlay);
 }();

@@ -1,17 +1,17 @@
 'use strict';
-window.sort = function (clickElement, array, callback1, callback2, callback3) {
+window.sort = function (clickElement, array, popularFitler, newFilter, discussedFilter) {
   clickElement.addEventListener('click', function (evt) {
     if (evt.target.getElementsByTagName('input')) {
       var checked = evt.target;
       var filterValue = checked.value;
       if (filterValue === 'popular') {
-        callback1();
+        popularFitler();
       }
       if (filterValue === 'new') {
-        callback2();
+        newFilter();
       }
       if (filterValue === 'discussed') {
-        callback3();
+        discussedFilter();
       }
     }
   });

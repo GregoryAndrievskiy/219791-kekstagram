@@ -9,7 +9,8 @@ window.initializeFilters = function (clickElement, HideElement, previewElement, 
       if (filterName === 'none') {
         HideElement.classList.add('invisible');
         setClass(previewElement, filterNameValue);
-        previewElement.style = '';
+        // previewElement.style = '';
+        previewElement.style.width = '586px';
       } else {
         HideElement.classList.remove('invisible');
       }
