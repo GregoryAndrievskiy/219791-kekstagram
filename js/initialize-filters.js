@@ -62,6 +62,7 @@ window.initializeFilters = function (clickElement, HideElement, previewElement, 
     HideElement.addEventListener('mousemove', onMouseMove);
     HideElement.addEventListener('mouseup', onMouseUp);
   });
+
 // по клику на шкалу
   clickBar.addEventListener('click', function (clickEvt) {
     clickEvt.preventDefault();
