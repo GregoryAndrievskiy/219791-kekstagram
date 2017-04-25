@@ -1,4 +1,5 @@
 'use strict';
+
 window.initializeScale = (function (defaultScale, increase, decrease, scaleStep, minScale, maxScale, scaleSet) {
   var actualScale = defaultScale;
   increase.addEventListener('click', function () {

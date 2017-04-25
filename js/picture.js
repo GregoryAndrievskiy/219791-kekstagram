@@ -1,4 +1,5 @@
 'use strict';
+
 window.picture = function () {
   function renderPictures(array) {
     var pictureTemplate = document.querySelector('#picture-template').content;

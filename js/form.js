@@ -1,6 +1,6 @@
 'use strict';
-window.form = function () {
 
+window.form = function () {
   var KEY_CODE = {
     ENTER: 13,
     ESCAPE: 27
@@ -13,7 +13,6 @@ window.form = function () {
     heat: {actual: null, default: 3, nameOfClass: 'filter-heat', names: 'brightness', units: '', multiplier: 3},
     none: {nameOfClass: 'filter-none', names: 'none', units: ''}
   };
-
   var uploadOverlay = document.querySelector('.upload-overlay');
   var uploadForm = document.querySelector('#upload-select-image');
   var uploadFile = uploadForm.elements.filename;
@@ -24,8 +23,6 @@ window.form = function () {
   uploadForm.classList.remove('invisible');
   uploadOverlay.classList.add('invisible');
   uploadPreview.classList.add('filter-none');
-
-// наложение фильтров
   var uploadControls = uploadOverlay.querySelector('.upload-filter-controls');
   var uploadFilterLevel = uploadOverlay.querySelector('.upload-filter-level');
   var uploadFilterNone = uploadControls.querySelector('#upload-filter-none');
@@ -38,8 +35,6 @@ window.form = function () {
   uploadLine.setAttribute('dropzone', 'move');
   uploadPin.setAttribute('draggabel', 'true');
   uploadVal.style.maxWidth = '100%';
-
-// размеры загружаенмых изображений
   uploadPreview.style.width = '100%';
   previewForm.style.width = '586px';
   uploadFilterLevel.style.bottom = '380px';
@@ -56,10 +51,7 @@ window.form = function () {
     uploadPin.style.left = maxPosition + 'px';
     uploadVal.style.width = maxPosition + 'px';
   };
-
   window.initializeFilters(uploadControls, uploadFilterLevel, uploadPreview, uploadPin, uploadVal, uploadLine, filters, setFilterClass, applyFilter, minPosition, maxPosition, defaultPosition);
-
-// масштабирование изобраэения
   var defaultScale = 100;
   var scaleStep = 25;
   var minScale = 25;
@@ -75,8 +67,6 @@ window.form = function () {
     uploadResizeControl.setAttribute('value', actualScale + '%');
   }
   window.initializeScale(defaultScale, uploadIncrease, uploadDecrease, scaleStep, minScale, maxScale, setScale);
-
-// публикация изображения
   var uploadDescription = uploadOverlay.querySelector('.upload-form-description');
   var uploadSubmit = uploadOverlay.querySelector('.upload-form-submit');
   uploadDescription.required = true;
@@ -97,25 +87,20 @@ window.form = function () {
     resetDefaults();
     setScale(100);
   });
-
-// управление
   var closeUploadOverlayEsc = function (evt) {
     if (evt.keyCode === KEY_CODE.ESCAPE) {
       closeUploadOverlay();
     }
   };
-
   var openUploadOverlay = function () {
     uploadForm.classList.add('invisible');
     uploadOverlay.classList.remove('invisible');
     document.addEventListener('keydown', closeUploadOverlayEsc);
     setScale(100);
   };
-
   uploadFile.addEventListener('change', function () {
     openUploadOverlay();
   });
-
   var closeUploadOverlay = function () {
     uploadForm.classList.remove('invisible');
     uploadOverlay.classList.add('invisible');
@@ -124,16 +109,13 @@ window.form = function () {
     document.removeEventListener('keydown', closeUploadOverlayEsc);
     uploadPreview.style.filter = 'none';
   };
-
   uploadCancel.addEventListener('click', function () {
     closeUploadOverlay();
   });
-
   document.querySelector('.upload-form-description').addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEY_CODE.ESCAPE) {
       evt.stopPropagation();
     }
   });
-
   window.pictureUpload(openUploadOverlay);
 }();

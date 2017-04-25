@@ -1,4 +1,5 @@
 'use strict';
+
 window.sort = function (clickElement, array, popularFitler, newFilter, discussedFilter) {
   clickElement.addEventListener('click', function (evt) {
     if (evt.target.getElementsByTagName('input')) {

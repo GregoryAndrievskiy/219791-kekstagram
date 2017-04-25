@@ -1,6 +1,6 @@
 'use strict';
+
 window.initializeFilters = function (clickElement, HideElement, previewElement, dragElement, barElement, clickBar, filtersObj, setClass, setFilter, minPosition, maxPosition, defaultPosition) {
-// выбор фильтра
   clickElement.addEventListener('click', function (evt) {
     if (evt.target.getElementsByTagName('input')) {
       var checked = evt.target;
@@ -9,7 +9,7 @@ window.initializeFilters = function (clickElement, HideElement, previewElement, 
       if (filterName === 'none') {
         HideElement.classList.add('invisible');
         setClass(previewElement, filterNameValue);
-        // previewElement.style = '';
+        previewElement.style = '';
         previewElement.style.width = '586px';
       } else {
         HideElement.classList.remove('invisible');
@@ -26,8 +26,6 @@ window.initializeFilters = function (clickElement, HideElement, previewElement, 
       }
     }
   });
-// настройка фильтра
-// по передвижению пина
   dragElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var checkedFilter = clickElement.querySelector('input[type="radio"]:checked');
@@ -53,7 +51,6 @@ window.initializeFilters = function (clickElement, HideElement, previewElement, 
       var filterValue = position * filter.multiplier / maxPosition;
       setFilter(previewElement, filterType, filterValue, filterUnits);
     };
-
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       HideElement.removeEventListener('mousemove', onMouseMove);
@@ -63,8 +60,6 @@ window.initializeFilters = function (clickElement, HideElement, previewElement, 
     HideElement.addEventListener('mousemove', onMouseMove);
     HideElement.addEventListener('mouseup', onMouseUp);
   });
-
-// по клику на шкалу
   clickBar.addEventListener('click', function (clickEvt) {
     clickEvt.preventDefault();
     var position = clickEvt.clientX - clickBar.getBoundingClientRect().left;
