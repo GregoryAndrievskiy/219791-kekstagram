@@ -16,11 +16,11 @@
   var likesComparator = function (left, right) {
     if (left < right) {
       return 1;
-    } else if (left > right) {
-      return -1;
-    } else {
-      return 0;
     }
+    if (left > right) {
+      return -1;
+    }
+    return 0;
   };
   function showFilters() {
     filters.classList.remove('hidden');
@@ -55,15 +55,15 @@
     window.picture.renderPictures(newArray);
     onPictureClick();
   }
-  var debouncePopular = window.debounce(popularPictures, 500);
-  var debounceNew = window.debounce(newPictures, 500);
-  var debounceDiscussed = window.debounce(discussedPictures, 500);
+  var delay = 500;
+  var debouncePopular = window.bounce.debounce(popularPictures, delay);
+  var debounceNew = window.bounce.debounce(newPictures, delay);
+  var debounceDiscussed = window.bounce.debounce(discussedPictures, delay);
   var onLoad = function (data) {
     photoArray = data;
     window.picture.renderPictures(photoArray);
-    window.preview.showDefaultOverlay(photoArray, 5, closeOverlayEsc);
     showFilters();
-    window.sort(filters, photoArray, debouncePopular, debounceNew, debounceDiscussed);
+    window.sortPics.applySort(filters, debouncePopular, debounceNew, debounceDiscussed);
     onPictureClick();
   };
   var error = function (errorMessage) {

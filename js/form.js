@@ -51,7 +51,7 @@ window.form = function () {
     uploadPin.style.left = maxPosition + 'px';
     uploadVal.style.width = maxPosition + 'px';
   };
-  window.initializeFilters(uploadControls, uploadFilterLevel, uploadPreview, uploadPin, uploadVal, uploadLine, filters, setFilterClass, applyFilter, minPosition, maxPosition, defaultPosition);
+  window.initializeFilters.setFilter(uploadControls, uploadFilterLevel, uploadPreview, uploadPin, uploadVal, uploadLine, filters, setFilterClass, applyFilter, minPosition, maxPosition, defaultPosition);
   var defaultScale = 100;
   var scaleStep = 25;
   var minScale = 25;
@@ -66,7 +66,7 @@ window.form = function () {
     uploadPreview.style.transform = 'scale(' + actualScale / 100 + ')';
     uploadResizeControl.setAttribute('value', actualScale + '%');
   }
-  window.initializeScale(defaultScale, uploadIncrease, uploadDecrease, scaleStep, minScale, maxScale, setScale);
+  window.initializeScale.setScale(defaultScale, uploadIncrease, uploadDecrease, scaleStep, minScale, maxScale, setScale);
   var uploadDescription = uploadOverlay.querySelector('.upload-form-description');
   var uploadSubmit = uploadOverlay.querySelector('.upload-form-submit');
   uploadDescription.required = true;
@@ -117,5 +117,5 @@ window.form = function () {
       evt.stopPropagation();
     }
   });
-  window.pictureUpload(openUploadOverlay);
+  window.upload.uploadPicture(openUploadOverlay);
 }();

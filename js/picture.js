@@ -11,9 +11,9 @@ window.picture = function () {
       return photoElement;
     };
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(renderPhoto(array[i]));
-    }
+    array.forEach(function (item) {
+      fragment.appendChild(renderPhoto(item));
+    });
     document.querySelector('.pictures').appendChild(fragment);
   }
   return {
