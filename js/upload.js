@@ -33,11 +33,11 @@ window.pictureUpload = function (uploadOverlay) {
   });
 
 // загрузка перетаскиванием
-  var dropbox;
-  dropbox = document.querySelector('.upload-control');
-  dropbox.addEventListener('dragenter', dragenter, false);
-  dropbox.addEventListener('dragover', dragover, false);
-  dropbox.addEventListener('drop', drop, false);
+  var dropzone;
+  dropzone = document.querySelector('.upload-control');
+  dropzone.addEventListener('dragenter', dragenter, false);
+  dropzone.addEventListener('dragover', dragover, false);
+  dropzone.addEventListener('drop', drop, false);
 
   function dragenter(e) {
     e.stopPropagation();
